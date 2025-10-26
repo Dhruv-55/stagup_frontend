@@ -20,6 +20,21 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
  
+ <script>
+  if (!localStorage.getItem('auth_token')) {
+    window.location.href = "http://127.0.0.1:8000/";
+  } else {
+    // Optional backend validation (non-blocking)
+    fetch("http://127.0.0.1:8001/api/auth/check", {
+      headers: { "Authorization": "Bearer " + localStorage.getItem('auth_token') }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.valid) window.location.href = "http://127.0.0.1:8000/";
+    })
+  }
+</script>
+
 </head>
 <body>
 
@@ -112,6 +127,14 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
+
+    //       window.AuthMiddleware = function(){
+    //     if(localStorage.getItem('auth_token') == null){
+    //         window.location.href = "/";
+    //     }
+    // }
+    // AuthMiddleware();
+     
         // Modern Toast Notification Function
         function customToast(message, type = 'success') {
             $('.custom-toast').addClass('toast-exit');
@@ -230,7 +253,7 @@
                 },
                 success: function(response) {
                    let html="";
-                   console.log(response.data);
+                //    console.log(response.data);
                    if(response.data.length==0){
                       html ="<p style='text-align:center'>No Result Found</p>";  
                    }else{
@@ -277,7 +300,7 @@
        getUserData();
         let userData = localStorage.getItem('user_data');
         userData = JSON.parse(userData);
-        console.log(userData);
+        // console.log(userData);
 
         // $('#SidebarDropImage').attr('src', localStorage.getItem('user').); 
         $('#SidebarHeading').text(userData.profile?.display_name); 
@@ -314,10 +337,10 @@
                 }
             });
        } 
-       
+    
     });
-
-       
+  
+ 
   </script>      
     @yield('ajax-scripts')
 </body>
