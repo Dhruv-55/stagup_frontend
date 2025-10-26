@@ -26,9 +26,9 @@ $(document).ready(function() {
                     `<div class="bg-white rounded-xl shadow-sm text-sm font-medium border1 dark:bg-dark2 my-2 " >
 
                         <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
-                            <a href="profile.html"> <img src="${ getImageUrl(item.user.profile?.profile_image) }" alt="" class="w-9 h-9 rounded-full"> </a>  
+                            <a href="/profile/${item.user.id}"> <img src="${ getImageUrl(item.user.profile?.profile_image) }" alt="" class="w-9 h-9 rounded-full"> </a>  
                             <div class="flex-1">
-                                <a href="profile.html"> <h4 class="text-black dark:text-white"> ${item.user.username} </h4> </a>  
+                                <a href="/profile/${item.user.id}"> <h4 class="text-black dark:text-white"> ${item.user.username} </h4> </a>  
                                 <div class="text-xs text-gray-500 dark:text-white/80"> ${humanizeDate(item.created_at)}</div>
                             </div>
 
