@@ -1,4 +1,3 @@
-
     <style>
         * {
             margin: 0;
@@ -12,6 +11,214 @@
             color: #fff;
         }
 
+        /* Story Viewer Styles */
+        .story-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-viewer.active {
+            display: flex;
+        }
+
+        .story-viewer-content {
+            width: 100%;
+            height: 100%;
+            max-width: 500px;
+            position: relative;
+            background: #000;
+        }
+
+        /* Progress Bars */
+        .story-progress-container {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .story-progress-bar {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .story-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #fff;
+            transition: width 0.1s linear;
+        }
+
+        .story-progress-fill.completed {
+            width: 100%;
+        }
+
+        /* Story Header */
+        .story-header {
+            position: absolute;
+            top: 24px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+            padding: 12px;
+            margin-top: 16px;
+        }
+
+        .story-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .story-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            overflow: hidden;
+        }
+
+        .story-user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .story-user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .story-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .story-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Story Image */
+        .story-image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            position: relative;
+        }
+
+        .story-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Navigation Areas */
+        .story-nav {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40%;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .story-nav-prev {
+            left: 0;
+        }
+
+        .story-nav-next {
+            right: 0;
+        }
+
+        /* Story Navigation Buttons */
+        .story-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 15;
+            font-size: 20px;
+        }
+
+        .story-nav-button:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .story-nav-button-prev {
+            left: 12px;
+        }
+
+        .story-nav-button-next {
+            right: 12px;
+        }
+
+        .story-viewer:hover .story-nav-button {
+            display: flex;
+        }
+
+        /* Pause Indicator */
+        .story-paused {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            z-index: 20;
+            font-size: 14px;
+        }
+
+        .story-paused.active {
+            display: block;
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -227,48 +434,6 @@
             background: #374151;
         }
 
-        @media (max-width: 640px) {
-            .modal-content {
-                max-width: 100%;
-                border-radius: 12px;
-            }
-
-            .modal-header {
-                padding: 16px 20px;
-            }
-
-            .modal-body {
-                padding: 20px;
-            }
-
-            .upload-area {
-                padding: 40px 20px;
-                min-height: 280px;
-            }
-
-            .upload-icon {
-                width: 60px;
-                height: 60px;
-            }
-
-            .upload-icon svg {
-                width: 30px;
-                height: 30px;
-            }
-
-            .upload-text {
-                font-size: 15px;
-            }
-
-            .upload-subtext {
-                font-size: 13px;
-            }
-
-            .selected-images {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         .selected-images::-webkit-scrollbar {
             width: 6px;
         }
@@ -287,36 +452,33 @@
             background: #718096;
         }
     </style>
-</head>
-<body>
+
     <div>
         <div>
-            <div class="relative" tabindex="-1" uk-slider="autoplay: true;finite: true" uk-lightbox="">
-
+            <div class="relative" tabindex="-1" uk-slider="autoplay: true;finite: true">
                 <div class="py-5 uk-slider-container">
-                    
                     <ul class="uk-slider-items w-[calc(100%+14px)]" id="storyList" uk-scrollspy="target: > li; cls: uk-animation-scale-up; delay: 20;repeat:true">
                         <li class="md:pr-3" uk-scrollspy-class="uk-animation-fade" onclick="openModal()" style="cursor: pointer;">
                             <div class="md:w-20 md:h-20 w-20 h-20 rounded-full relative border-2 border-dashed grid place-items-center bg-slate-200 border-slate-300 dark:border-slate-700 dark:bg-dark2">
                                 <ion-icon name="camera" class="text-2xl"></ion-icon>
                             </div>
                         </li>
-                        
-                       
                     </ul>
-
                 </div>
                 
                 <div class="max-md:hidden">
-                    <button type="button" class="absolute -translate-y-1/2 bg-white shadow rounded-full top-1/2 -left-3.5 grid w-8 h-8 place-items-center dark:bg-dark3" uk-slider-item="previous"> <ion-icon name="chevron-back" class="text-2xl"></ion-icon></button>
-                    <button type="button" class="absolute -right-2 -translate-y-1/2 bg-white shadow rounded-full top-1/2 grid w-8 h-8 place-items-center dark:bg-dark3" uk-slider-item="next"> <ion-icon name="chevron-forward" class="text-2xl"></ion-icon> </button>
+                    <button type="button" class="absolute -translate-y-1/2 bg-white shadow rounded-full top-1/2 -left-3.5 grid w-8 h-8 place-items-center dark:bg-dark3" uk-slider-item="previous"> 
+                        <ion-icon name="chevron-back" class="text-2xl"></ion-icon>
+                    </button>
+                    <button type="button" class="absolute -right-2 -translate-y-1/2 bg-white shadow rounded-full top-1/2 grid w-8 h-8 place-items-center dark:bg-dark3" uk-slider-item="next"> 
+                        <ion-icon name="chevron-forward" class="text-2xl"></ion-icon> 
+                    </button>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Add Story Modal -->
     <div class="modal" id="addStoryModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -347,10 +509,50 @@
 
                 <div class="action-buttons">
                     <button class="btn btn-select" onclick="document.getElementById('imageUpload').click()">
-                         Select Photos
+                            Select Photos
                     </button>
                     <button class="btn btn-clear" onclick="clearImages()">Clear All</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Viewer -->
+    <div class="story-viewer" id="storyViewer">
+        <div class="story-viewer-content">
+            <!-- Progress Bars -->
+            <div class="story-progress-container" id="storyProgressContainer"></div>
+
+            <!-- Header -->
+            <div class="story-header">
+                <div class="story-user-info">
+                    <div class="story-user-avatar">
+                        <img id="storyUserAvatar" src="" alt="">
+                    </div>
+                    <div class="story-user-details">
+                        <div class="story-user-name" id="storyUserName">Username</div>
+                        <div class="story-time" id="storyTime">2h ago</div>
+                    </div>
+                </div>
+                <button class="story-close" onclick="closeStoryViewer()">×</button>
+            </div>
+
+            <!-- Story Image -->
+            <div class="story-image-container" id="storyImageContainer">
+                <img class="story-image" id="storyImage" src="" alt="">
+            </div>
+
+            <!-- Navigation Areas (invisible clickable areas) -->
+            <div class="story-nav story-nav-prev" onclick="previousStoryItem()"></div>
+            <div class="story-nav story-nav-next" onclick="nextStoryItem()"></div>
+
+            <!-- Navigation Buttons -->
+            <button class="story-nav-button story-nav-button-prev" onclick="previousStoryItem()">‹</button>
+            <button class="story-nav-button story-nav-button-next" onclick="nextStoryItem()">›</button>
+
+            <!-- Pause Indicator -->
+            <div class="story-paused" id="storyPaused">
+                Paused
             </div>
         </div>
     </div>

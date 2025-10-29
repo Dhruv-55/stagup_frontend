@@ -4,261 +4,561 @@
     </div>
     <!-- You must be the change you wish to see in the world. - Mahatma Gandhi -->
      @section("ajax-scripts")
-<script>
-              
-const BaseURL = "{{ env('API_ROUTE_URL') }}";
-const paramID = "{{ request()->route('id') ?? 0 }}";
-const token = localStorage.getItem('auth_token');
-$(document).ready(function() {
-   
-   function loadData(){
-     $.ajax({
-        url: BaseURL + "/home",
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
-        type: "GET",     
-        success: function(response) {
-            $("#HomePost").html("");
-            if(response.data.length > 0){
-            response.data.forEach(item => {
-                let post =    
-                    `<div class="bg-white rounded-xl shadow-sm text-sm font-medium border1 dark:bg-dark2 my-2 " >
-
-                        <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
-                            <a href="/profile/${item.user.id}"> <img src="${ getImageUrl(item.user.profile?.profile_image) }" alt="" class="w-9 h-9 rounded-full"> </a>  
-                            <div class="flex-1">
-                                <a href="/profile/${item.user.id}"> <h4 class="text-black dark:text-white"> ${item.user.username} </h4> </a>  
-                                <div class="text-xs text-gray-500 dark:text-white/80"> ${humanizeDate(item.created_at)}</div>
-                            </div>
-
-                           
-                        </div>
-                        
-                        <div class="relative w-full sm:px-4" style="height: 400px;">
-                        <img src="${ item.image ? getImageUrl(item.image) : '/default.jpg' }" 
-                            alt="" 
-                            class="sm:rounded-lg w-full h-full object-cover"
-                            style="height: 400px; object-fit: cover;">
-                    </div>
-
-                    
-                        <div class="sm:p-4 p-2.5 flex items-center gap-4 text-xs font-semibold">
-                            <div class="flex items-center gap-2.5">
-                                <button type="button" onclick="likeOrDislike(${item.id})" class="button__ico ${item.is_liked ? 'text-red-500 bg-red-100' : 'text-gray-500 bg-gray-100'} dark:bg-slate-700"> <ion-icon class="text-lg" name="heart"></ion-icon> </button>
-                                <a href="javascript:void(0);">${item.total_likes}</a>
-                            </div>
-                        </div>
-
-                       
-
-                    </div>`;
-                $("#HomePost").append(post);
-            })
-            }else{
-                $("#HomePost").append("No data found");
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-   }
-
-
-    window.likeOrDislike = function(postId){
-        $.ajax({
-            url: BaseURL + "/general/likeOrDislike",
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            type: "POST",     
-            data: {
-                event_id: postId
-            },
-            success: function(response) {
-               loadData();
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-            }
-        });
-    }
-    loadData();
-});
-
-
-</script>
- <script>
-        let selectedImages = [];
-
-        function openModal() {
-            document.getElementById('addStoryModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('addStoryModal').classList.remove('active');
-            clearImages();
-        }
-
-        function handleImageSelect(event) {
-            const files = Array.from(event.target.files);
+        <script>
+            const BaseURL = "{{ env('API_ROUTE_URL') }}";
+            const paramID = "{{ request()->route('id') ?? 0 }}";
+            const token = localStorage.getItem('auth_token');
+            $(document).ready(function() {
             
-            files.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        selectedImages.push({
-                            id: Date.now() + Math.random(),
-                            data: e.target.result
-                        });
-                        renderSelectedImages();
-                    };
-                    reader.readAsDataURL(file);
+            function loadData(){
+                $.ajax({
+                    url: BaseURL + "/home",
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    type: "GET",     
+                    success: function(response) {
+                        $("#HomePost").html("");
+                        if(response.data.length > 0){
+                        response.data.forEach(item => {
+                            let post =    
+                                `<div class="bg-white rounded-xl shadow-sm text-sm font-medium border1 dark:bg-dark2 my-2 " >
+
+                                    <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
+                                        <a href="/profile/${item.user.id}"> <img src="${ getImageUrl(item.user.profile?.profile_image) }" alt="" class="w-9 h-9 rounded-full"> </a>  
+                                        <div class="flex-1">
+                                            <a href="/profile/${item.user.id}"> <h4 class="text-black dark:text-white"> ${item.user.username} </h4> </a>  
+                                            <div class="text-xs text-gray-500 dark:text-white/80"> ${humanizeDate(item.created_at)}</div>
+                                        </div>
+
+                                    
+                                    </div>
+                                    
+                                    <div class="relative w-full sm:px-4" style="height: 400px;">
+                                    <img src="${ item.image ? getImageUrl(item.image) : '/default.jpg' }" 
+                                        alt="" 
+                                        class="sm:rounded-lg w-full h-full object-cover"
+                                        style="height: 400px; object-fit: cover;">
+                                </div>
+
+                                
+                                    <div class="sm:p-4 p-2.5 flex items-center gap-4 text-xs font-semibold">
+                                        <div class="flex items-center gap-2.5">
+                                            <button type="button" onclick="likeOrDislike(${item.id})" class="button__ico ${item.is_liked ? 'text-red-500 bg-red-100' : 'text-gray-500 bg-gray-100'} dark:bg-slate-700"> <ion-icon class="text-lg" name="heart"></ion-icon> </button>
+                                            <a href="javascript:void(0);">${item.total_likes}</a>
+                                        </div>
+                                    </div>
+
+                                
+
+                                </div>`;
+                            $("#HomePost").append(post);
+                        })
+                        }else{
+                            $("#HomePost").append("No data found");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+
+                window.likeOrDislike = function(postId){
+                    $.ajax({
+                        url: BaseURL + "/general/likeOrDislike",
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        type: "POST",     
+                        data: {
+                            event_id: postId
+                        },
+                        success: function(response) {
+                        loadData();
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
                 }
+                loadData();
             });
-        }
+        </script>
+        <script>
+            let selectedImages = [];
+            let storiesData = [];
+            let currentStoryIndex = 0;
+            let currentImageIndex = 0;
+            let storyTimer = null;
+            let progressTimer = null;
+            let isPaused = false;
+            const STORY_DURATION = 5000; // 5 seconds per image
 
-        function renderSelectedImages() {
-            const container = document.getElementById('selectedImages');
-            const counterElement = document.getElementById('imageCounter');
-            const selectedContainer = document.getElementById('selectedImagesContainer');
-            const nextBtn = document.getElementById('nextBtn');
+            // Mock function - replace with your actual implementation
+            function getImageUrl(imagePath) {
+                return imagePath;
+            }
+
+            // Add Story Modal Functions
+            function openModal() {
+                document.getElementById('addStoryModal').classList.add('active');
+            }
+
+            function closeModal() {
+                document.getElementById('addStoryModal').classList.remove('active');
+                clearImages();
+            }
+
             
-            if (selectedImages.length > 0) {
-                selectedContainer.style.display = 'block';
-                counterElement.textContent = `${selectedImages.length} photo${selectedImages.length > 1 ? 's' : ''} selected`;
-                nextBtn.disabled = false;
+
+            function renderSelectedImages() {
+                const container = document.getElementById('selectedImages');
+                const counterElement = document.getElementById('imageCounter');
+                const selectedContainer = document.getElementById('selectedImagesContainer');
+                const nextBtn = document.getElementById('nextBtn');
                 
-                container.innerHTML = selectedImages.map((img, index) => `
-                    <div class="image-item">
-                        <img src="${img.data}" alt="Selected ${index + 1}">
-                        <button class="remove-btn" onclick="removeImage(${index})">×</button>
+                if (selectedImages.length > 0) {
+                    selectedContainer.style.display = 'block';
+                    counterElement.textContent = `${selectedImages.length} photo${selectedImages.length > 1 ? 's' : ''} selected`;
+                    nextBtn.disabled = false;
+                    
+                    container.innerHTML = selectedImages.map((img, index) => `
+                        <div class="image-item">
+                            <img src="${img.data}" alt="Selected ${index + 1}">
+                            <button class="remove-btn" onclick="removeImage(${index})">×</button>
+                        </div>
+                    `).join('');
+                } else {
+                    selectedContainer.style.display = 'none';
+                    nextBtn.disabled = true;
+                }
+            }
+
+          
+
+            // Modified addStories function to use FormData
+            function addStories() {
+                if (selectedImages.length === 0) {
+                    alert('Please select at least one image');
+                    return;
+                }
+
+                // Create FormData object
+                const formData = new FormData();
+                
+                // Get the file input element
+                const fileInput = document.getElementById('imageUpload');
+                
+                // Append all selected files to FormData
+                Array.from(fileInput.files).forEach((file, index) => {
+                    formData.append('images[]', file);
+                });
+
+                $.ajax({
+                    url: MainURL + "/story/add-or-update",
+                    headers: {
+                        'Authorization': 'Bearer ' + MainToken
+                    },
+                    type: "POST",
+                    data: formData,
+                    processData: false,  // Don't process the data
+                    contentType: false,  // Don't set content type (let browser set it with boundary)
+                    success: function(response) {
+                        loadStories();
+                        closeModal();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                        alert('Failed to upload story. Please try again.');
+                    }
+                });
+            }
+
+            // Modified handleImageSelect to store actual File objects
+            let selectedFiles = []; // Add this at the top with other variables
+
+            function handleImageSelect(event) {
+                const files = Array.from(event.target.files);
+                
+                // Store actual files
+                selectedFiles = files;
+                
+                // Create previews
+                selectedImages = [];
+                files.forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            selectedImages.push({
+                                id: Date.now() + Math.random(),
+                                data: e.target.result,
+                                file: file
+                            });
+                            renderSelectedImages();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Modified removeImage function
+            function removeImage(index) {
+                selectedImages.splice(index, 1);
+                
+                // Update the file input
+                const input = document.getElementById('imageUpload');
+                const dt = new DataTransfer();
+                
+                selectedImages.forEach(img => {
+                    if (img.file) {
+                        dt.items.add(img.file);
+                    }
+                });
+                
+                input.files = dt.files;
+                renderSelectedImages();
+            }
+
+            // Modified clearImages function
+            function clearImages() {
+                selectedImages = [];
+                selectedFiles = [];
+                document.getElementById('imageUpload').value = '';
+                renderSelectedImages();
+            }
+
+            // Story Viewer Functions
+            function openStoryViewer(storyIndex) {
+                currentStoryIndex = storyIndex;
+                currentImageIndex = 0;
+                document.getElementById('storyViewer').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                showStory();
+            }
+
+            function closeStoryViewer() {
+                document.getElementById('storyViewer').classList.remove('active');
+                document.body.style.overflow = 'auto';
+                stopStoryTimer();
+            }
+
+            function showStory() {
+                if (!storiesData[currentStoryIndex]) return;
+
+                const story = storiesData[currentStoryIndex];
+                const images = story.images;
+
+                // Update user info
+                document.getElementById('storyUserName').textContent = story.username;
+                document.getElementById('storyUserAvatar').src = story.avatar;
+                document.getElementById('storyTime').textContent = getTimeAgo(story.timestamp);
+
+                // Create progress bars
+                const progressContainer = document.getElementById('storyProgressContainer');
+                progressContainer.innerHTML = images.map((_, index) => `
+                    <div class="story-progress-bar">
+                        <div class="story-progress-fill" id="progress-${index}"></div>
                     </div>
                 `).join('');
-            } else {
-                selectedContainer.style.display = 'none';
-                nextBtn.disabled = true;
-            }
-        }
 
-        function removeImage(index) {
-            selectedImages.splice(index, 1);
-            renderSelectedImages();
-        }
-
-        function clearImages() {
-            selectedImages = [];
-            document.getElementById('imageUpload').value = '';
-            renderSelectedImages();
-        }
-
-        function addStories() {
-            if (selectedImages.length === 0) {
-                alert('Please select at least one image');
-                return;
+                // Show current image
+                showStoryImage();
             }
 
-            const storyList = document.getElementById('storyList');
-            $.ajax({
-                url: MainURL + "/story/add-or-update",
-                headers: {
-                    'Authorization': 'Bearer ' + MainToken
-                },
-                type: "POST",     
-                data: {
-                    images: selectedImages
-                },
-                success: function(response) {
+            function showStoryImage() {
+                const story = storiesData[currentStoryIndex];
+                const image = story.images[currentImageIndex];
+
+                // Update image
+                const imgElement = document.getElementById('storyImage');
+                imgElement.src = image.url;
+
+                // Mark previous progress bars as completed
+                for (let i = 0; i < currentImageIndex; i++) {
+                    const progressBar = document.getElementById(`progress-${i}`);
+                    if (progressBar) {
+                        progressBar.classList.add('completed');
+                    }
+                }
+
+                // Start progress for current image
+                startStoryTimer();
+            }
+
+            function startStoryTimer() {
+                stopStoryTimer();
+                isPaused = false;
+
+                const progressBar = document.getElementById(`progress-${currentImageIndex}`);
+                if (!progressBar) return;
+
+                let startTime = Date.now();
+                let elapsed = 0;
+
+                progressTimer = setInterval(() => {
+                    if (!isPaused) {
+                        elapsed = Date.now() - startTime;
+                        const progress = Math.min((elapsed / STORY_DURATION) * 100, 100);
+                        progressBar.style.width = progress + '%';
+
+                        if (progress >= 100) {
+                            nextStoryItem();
+                        }
+                    }
+                }, 50);
+            }
+
+            function stopStoryTimer() {
+                if (progressTimer) {
+                    clearInterval(progressTimer);
+                    progressTimer = null;
+                }
+            }
+
+            function nextStoryItem() {
+                const story = storiesData[currentStoryIndex];
+                
+                if (currentImageIndex < story.images.length - 1) {
+                    // Next image in current story
+                    currentImageIndex++;
+                    showStoryImage();
+                } else if (currentStoryIndex < storiesData.length - 1) {
+                    // Next story
+                    currentStoryIndex++;
+                    currentImageIndex = 0;
+                    showStory();
+                } else {
+                    // End of all stories
+                    closeStoryViewer();
+                }
+            }
+
+            function previousStoryItem() {
+                if (currentImageIndex > 0) {
+                    // Previous image in current story
+                    currentImageIndex--;
+                    showStoryImage();
+                } else if (currentStoryIndex > 0) {
+                    // Previous story
+                    currentStoryIndex--;
+                    const prevStory = storiesData[currentStoryIndex];
+                    currentImageIndex = prevStory.images.length - 1;
+                    showStory();
+                }
+            }
+
+            function togglePause() {
+                isPaused = !isPaused;
+                const pausedIndicator = document.getElementById('storyPaused');
+                if (isPaused) {
+                    pausedIndicator.classList.add('active');
+                } else {
+                    pausedIndicator.classList.remove('active');
+                }
+            }
+
+            // Add pause on long press
+            let longPressTimer;
+            document.getElementById('storyViewer').addEventListener('mousedown', () => {
+                longPressTimer = setTimeout(() => {
+                    isPaused = true;
+                    document.getElementById('storyPaused').classList.add('active');
+                }, 200);
+            });
+
+            document.getElementById('storyViewer').addEventListener('mouseup', () => {
+                clearTimeout(longPressTimer);
+                if (isPaused) {
+                    isPaused = false;
+                    document.getElementById('storyPaused').classList.remove('active');
+                }
+            });
+
+            // Touch events for mobile
+            document.getElementById('storyViewer').addEventListener('touchstart', () => {
+                longPressTimer = setTimeout(() => {
+                    isPaused = true;
+                    document.getElementById('storyPaused').classList.add('active');
+                }, 200);
+            });
+
+            document.getElementById('storyViewer').addEventListener('touchend', () => {
+                clearTimeout(longPressTimer);
+                if (isPaused) {
+                    isPaused = false;
+                    document.getElementById('storyPaused').classList.remove('active');
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                const viewer = document.getElementById('storyViewer');
+                if (!viewer.classList.contains('active')) return;
+
+                if (e.key === 'ArrowRight') {
+                    nextStoryItem();
+                } else if (e.key === 'ArrowLeft') {
+                    previousStoryItem();
+                } else if (e.key === 'Escape') {
+                    closeStoryViewer();
+                }
+            });
+
+          // Load Stories Funct ion
+            window.loadStories = function() {
+                $.ajax({
+                    url: MainURL + "/story/load-stories",
+                    headers: {
+                        'Authorization': 'Bearer ' + MainToken
+                    },
+                    type: "GET",
+                    success: function(response) {
+                        storiesData = response.data.map(item => {
+                            // Default avatar
+                            let avatar = "/assets/images/avatars/avatar-3.jpg";
+                            if (item.user?.profile?.profile_image) {
+                                avatar = getImageUrl(item.user.profile.profile_image);
+                            }
+
+                            // Username
+                            let username = item.user?.username || 'User';
+
+                            // Images - story_data is an array, so we need to get the first element
+                            let images = [];
+                            console.log(item.story_data); // This will show the array
+                            
+                            // Check if story_data exists and has at least one element
+                            if (Array.isArray(item.story_data) && item.story_data.length > 0) {
+                                // Get images from the first story_data element
+                                const storyDataImages = item.story_data[0].images;
+                                console.log('Images:', storyDataImages);
+                                
+                                if (Array.isArray(storyDataImages)) {
+                                    images = storyDataImages.map(url => ({
+                                        url: url,
+                                        timestamp: item.story_data[0].created_at || item.created_at || new Date().toISOString()
+                                    }));
+                                }
+                            } 
+                            
+                            // Fallback if no images found
+                            if (images.length === 0) {
+                                images = [{
+                                    url: avatar,
+                                    timestamp: item.created_at || new Date().toISOString()
+                                }];
+                            }
+
+                            return {
+                                id: item.id,
+                                username: username,
+                                avatar: avatar,
+                                images: images,
+                                timestamp: item.created_at || new Date().toISOString()
+                            };
+                        });
+
+                        console.log('Processed Stories Data:', storiesData);
+                        renderStoryList();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading stories:', error);
+                    }
+                });
+            };
+
+            function renderStoryList() {
+                const storyList = document.getElementById('storyList');
+                const addStoryButton = storyList.querySelector('li:first-child');
+                
+                storyList.innerHTML = '';
+                storyList.appendChild(addStoryButton);
+
+                storiesData.forEach((story, index) => {
+                    const storyItem = document.createElement('li');
+                    storyItem.className = 'md:pr-2.5 pr-2 hover:scale-[1.15] hover:-rotate-2 duration-300';
+                    storyItem.style.cursor = 'pointer';
+                    storyItem.onclick = () => openStoryViewer(index);
+                    
+                    storyItem.innerHTML = `
+                        <div class="md:w-20 md:h-20 w-20 h-20 relative md:border-4 border-2 shadow border-white rounded-full overflow-hidden dark:border-slate-700" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); padding: 3px;">
+                            <div style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 2px solid #0f1419;">
+                                <img src="${story.avatar}" alt="${story.username}" class="absolute w-full h-full object-cover">
+                            </div>
+                        </div>
+                    `;
+                    
+                    storyList.appendChild(storyItem);
+                });
+            }
+
+            function getTimeAgo(timestamp) {
+                const now = new Date();
+                const time = new Date(timestamp);
+                const diff = Math.floor((now - time) / 1000); // difference in seconds
+
+                if (diff < 60) return 'Just now';
+                if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+                if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+                if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+                return Math.floor(diff / 604800) + 'w ago';
+            }
+
+            // Modal click outside to close
+            document.getElementById('addStoryModal').addEventListener('click', function(e) {
+                if (e.target === this) {
                     closeModal();
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
                 }
             });
 
-
+            // Drag and drop functionality
+            const uploadArea = document.getElementById('uploadArea');
             
-            
-            closeModal();
-        }
-
-        document.getElementById('addStoryModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        // Drag and drop functionality
-        const uploadArea = document.getElementById('uploadArea');
-        
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#3b82f6';
-            uploadArea.style.background = '#1a2332';
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.style.borderColor = '#4a5568';
-            uploadArea.style.background = '#0f1419';
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#4a5568';
-            uploadArea.style.background = '#0f1419';
-            
-            const files = Array.from(e.dataTransfer.files);
-            const input = document.getElementById('imageUpload');
-            
-            const dataTransfer = new DataTransfer();
-            files.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    dataTransfer.items.add(file);
-                }
-            });
-            
-            input.files = dataTransfer.files;
-            handleImageSelect({ target: input });
-        });
-        
-         window.loadStories = function(){
-            $.ajax({
-                url: MainURL + "/story/load-stories",
-                headers: {
-                    'Authorization': 'Bearer ' + MainToken
-                },
-                type: "GET",     
-                success: function(response) {
-                    storyList.innerHTML = "";
-                  response.data.forEach(item => {
-                let story = `
-                 <li class="md:pr-3" uk-scrollspy-class="uk-animation-fade" onclick="openModal()" style="cursor: pointer;">
-                            <div class="md:w-20 md:h-20 w-20 h-20 rounded-full relative border-2 border-dashed grid place-items-center bg-slate-200 border-slate-300 dark:border-slate-700 dark:bg-dark2">
-                                <ion-icon name="camera" class="text-2xl"></ion-icon>
-                            </div>
-                        </li>
-                    <li class="md:pr-2.5 pr-2 hover:scale-[1.15] hover:-rotate-2 duration-300">
-                        <a href="${ getImageUrl(item.image) }" data-caption="Caption 1">
-                            <div class="md:w-20 md:h-20 w-20 h-20 relative md:border-4 border-2 shadow border-white rounded-full overflow-hidden dark:border-slate-700">
-                                <img src="${ getImageUrl(item.image) }" alt="" class="absolute w-full h-full object-cover">
-                            </div>
-                        </a>
-                    </li>`;
-                storyList.insertAdjacentHTML('beforeend', story);
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#3b82f6';
+                uploadArea.style.background = '#1a2332';
             });
 
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                }
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#4a5568';
+                uploadArea.style.background = '#0f1419';
             });
-        }
-       $(document).ready(function() {
-            loadStories();
-        });
-</script>
-@endsection
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4a5568';
+                uploadArea.style.background = '#0f1419';
+                
+                const files = Array.from(e.dataTransfer.files);
+                const input = document.getElementById('imageUpload');
+                
+                const dataTransfer = new DataTransfer();
+                files.forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        dataTransfer.items.add(file);
+                    }
+                });
+                
+                input.files = dataTransfer.files;
+                handleImageSelect({ target: input });
+            });
+
+            // Initialize on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                loadStories();
+            });
+
+            // If using jQuery, use this instead:
+            /*
+            $(document).ready(function() {
+                loadStories();
+            });
+            */
+        </script>
+    @endsection
 </div>
 
 
