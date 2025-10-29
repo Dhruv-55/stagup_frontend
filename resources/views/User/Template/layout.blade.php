@@ -37,7 +37,10 @@
 
 </head>
 <body>
+@php
+ $is_message_page = Route::currentRouteName() == 'message';
 
+@endphp
 
     <div id="wrapper">
 
@@ -46,7 +49,7 @@
         <!-- main contents -->
         <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
 
-            <div class="main__inner mb-10">
+            <div class="{{ !$is_message_page ? 'main__inner mb-10' : '' }}">
   
                 <!-- stories -->
 

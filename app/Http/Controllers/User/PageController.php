@@ -33,4 +33,8 @@ class PageController extends Controller
     public function explore(){
         return view('User.Common.Explore.main');
     }
+
+    public function message(){
+        return view('User.Common.Message.main');
+    }
 }

@@ -17,6 +17,7 @@ Route::group(["controller" => AuthController::class], function () {
         Route::get('profile-setting', 'profileSetting')->name('profile-setting');
         Route::get('people/{id?}', 'people')->name('people');
         Route::get('explore', 'explore')->name('explore');
+        Route::get('message', 'message')->name('message');
     });
 
     Route::group(["controller" => OrganizerPageController::class], function () {
