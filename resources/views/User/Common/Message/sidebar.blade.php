@@ -47,34 +47,9 @@
 
 
                     <!-- users list -->
-                    <div class="space-y-2 p-2 overflow-y-auto h-[calc(100vh-127px)]">
+                    <div class="space-y-2 p-2 overflow-y-auto h-[calc(100vh-127px)]" id="MessageUserList">
 
-                        <a href="messages.html#" class="relative flex items-center gap-4 p-2 duration-200 rounded-xl hover:bg-secondery">
-                            <div class="relative w-14 h-14 shrink-0"> 
-                                <img src="assets/images/avatars/avatar-5.jpg" alt="" class="object-cover w-full h-full rounded-full">
-                                <div class="w-4 h-4 absolute bottom-0 right-0  bg-green-500 rounded-full border border-white dark:border-slate-800"></div>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <div class="mr-auto text-sm text-black dark:text-white font-medium">Jesse Steeve</div>
-                                    <div class="text-xs font-light text-gray-500 dark:text-white/70">09:40AM</div> 
-                                </div>
-                                <div class="font-medium overflow-hidden text-ellipsis text-sm whitespace-nowrap">Love your photos 😍</div>
-                            </div>
-                        </a>
-                        <a href="messages.html#" class="relative flex items-center gap-4 p-2 duration-200 rounded-xl hover:bg-secondery">
-                            <div class="relative w-14 h-14 shrink-0"> 
-                                <img src="assets/images/avatars/avatar-2.jpg" alt="" class="object-cover w-full h-full rounded-full">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <div class="mr-auto text-sm text-black dark:text-white font-medium">Martin Gray</div>
-                                    <div class="text-xs font-light text-gray-500 dark:text-white/70">09:40AM</div>
-                                    <div class="w-2.5 h-2.5 bg-blue-600 rounded-full dark:bg-slate-700"></div>
-                                </div>
-                                <div class="font-medium overflow-hidden text-ellipsis text-sm whitespace-nowrap">Photo editor needed. Fix photos? 🛠️</div>
-                            </div>
-                        </a>
+                       
                       
 
                     </div>
