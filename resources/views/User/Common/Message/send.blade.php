@@ -69,9 +69,9 @@
                     </div>
                     
                     <div class="relative flex-1">
-                        <textarea placeholder="Write your message" rows="1" class="w-full resize-none bg-secondery rounded-full px-4 p-2"></textarea>
+                        <textarea id="MessageInput" placeholder="Write your message" rows="1" class="w-full resize-none bg-secondery rounded-full px-4 p-2"></textarea>
                     
-                        <button type="button" class="text-white shrink-0 p-2 absolute right-0.5 top-0">
+                        <button id="SendMessageButton" type="button" class="text-white shrink-0 p-2 absolute right-0.5 top-0">
                             <ion-icon class="text-xl flex" name="send-outline"></ion-icon> 
                         </button>
 
