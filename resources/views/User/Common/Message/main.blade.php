@@ -327,6 +327,7 @@
 
     $("#SendMessageButton").on("click", function(){
         sendMessage();
+        
     });
 
     // Optional: Send message on Enter key
