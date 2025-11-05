@@ -1,4 +1,5 @@
-<div id="sidebar" class="fixed top-0 left-0 z-40 max-md:top-auto max-md:bottom-0">
+
+<div id="sidebar" class="fixed top-0 left-0 z-40 max-md:top-auto max-md:bottom-0" style="box-shadow: 2px 18px 4px rgba(0, 0, 0, 0.3)">
 
             <div id="sidebar__inner" class="flex sside md:flex-col justify-between md:h-screen md:p-2 p-1 transition-all duration-500 bg-white shadow dark:bg-dark2 2xl:w-72 xl:w-60 max-xl:w-[73px] max-md:w-screen max-md:border-t max-md:dark:border-slate-700">
 
@@ -7,12 +8,23 @@
                     <a href="{{ route('home') }}" id="logo" class="flex items-center gap-3">
 
                         <!-- logo icon -->
-                        <img id="logo__icon" src="/assets/images/logo-icon.png" alt="" class="md:w-8 hidden text-2xl max-xl:!block max-md:!hidden shrink-0 uk-animation-scale-up"> 
+                        <img id="logo__icon" src="/assets/favicon.png" alt="" class="md:w-12 hidden text-2xl max-xl:!block max-md:!hidden shrink-0 uk-animation-scale-up"> 
 
                         <!-- text logo -->
                         <!-- <img id="logo__text" src="assets/images/logo.svg" alt="" class="w-full h-6 ml-1 max-xl:hidden max-md:block dark:!hidden"> -->
-                        <img id="logo__text" src="/assets/images/logo-dark.svg" alt="" class="w-full h-6 ml-1 !hidden max-xl:!hidden max-md:block dark:max-md:!block dark:!block">
-                      
+                        <!-- <img id="logo__text" src="/assets/logo.png" alt="" class="w-full h-12 ml-1  !hidden max-xl:!hidden max-md:block dark:max-md:!block dark:!block sm:hidden">
+                        <img id="logo__text" src="/assets/favicon.png" alt="" class="w-full h-12 ml-1 !hidden max-xl:!hidden max-md:block dark:max-md:!block dark:!block sm:block hidden">
+                       -->
+
+                       <!-- Show on medium and larger screens -->
+                        <img src="/assets/logo.png" 
+                            alt="Logo" 
+                            class="h-12 ml-1  md:block max-xl:!hidden" id="mainLogo">
+
+                        <!-- Favicon: visible only on small screens -->
+                        <img src="/assets/favicon.png" 
+                            alt="Favicon" 
+                            class="h-12 ml-1 block md:hidden">
                     </a>
                 </div>
 

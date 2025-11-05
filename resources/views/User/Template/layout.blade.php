@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
-    <link href="/assets/images/favicon.png" rel="icon" type="image/png">
+    <link href="/assets/logo.png" rel="icon" type="image/png">
 
     <!-- title and description-->
-    <title>Instello</title>
-    <meta name="description" content="Instello - Sharing Photos platform HTML Template">
+    <title>{{ env('APP_NAME') }}</title>
+    <meta name="description" content="{{ env('APP_SLOGAN') }}">
    
     <!-- css files -->
     <link rel="stylesheet" href="/assets/css/tailwind.css">
