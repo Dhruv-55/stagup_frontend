@@ -2,9 +2,9 @@
 
                     <div id="message__wrap" class="flex items-center gap-2 h-full dark:text-white -mt-1.5">
                         
-                        <button type="button"  class="shrink-0">
+                        <!-- <button type="button"  class="shrink-0">
                             <ion-icon class="text-3xl flex" name="add-circle-outline"></ion-icon>
-                        </button>
+                        </button> -->
                         <div class="dropbar pt-36 h-60 bg-gradient-to-t via-white from-white via-30% from-30% dark:from-slate-900 dark:via-900" uk-drop="stretch: x; target: #message__wrap ;animation:  slide-bottom ;animate-out: true; pos: top-left; offset:10 ; mode: click ; duration: 200">
 
                             <div class="sm:w-full p-3 flex justify-center gap-5" uk-scrollspy="target: > button; cls: uk-animation-slide-bottom-small; delay: 100;repeat:true">
@@ -27,9 +27,9 @@
                             
                         </div>
 
-                        <button type="button"  class="shrink-0">
+                        <!-- <button type="button"  class="shrink-0">
                             <ion-icon class="text-3xl flex" name="happy-outline"></ion-icon>
-                        </button>
+                        </button> -->
                         <div class="dropbar p-2" uk-drop="stretch: x; target: #message__wrap ;animation: uk-animation-scale-up uk-transform-origin-bottom-left ;animate-out: true; pos: top-left ; offset:2; mode: click ; duration: 200 ">
 
                             <div class="sm:w-60 bg-white shadow-lg border rounded-xl  pr-0 dark:border-slate-700 dark:bg-dark3">
@@ -77,8 +77,8 @@
 
                     </div>
 
-                    <button type="button" class="flex h-full dark:text-white">
+                    <!-- <button type="button" class="flex h-full dark:text-white">
                         <ion-icon class="text-3xl flex -mt-3" name="heart-outline"></ion-icon> 
-                    </button>
+                    </button> -->
 
                 </div>

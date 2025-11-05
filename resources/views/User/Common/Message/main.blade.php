@@ -175,68 +175,7 @@
        loadChats();
 
 
-    //    ============== chat code area ===========================
-
-
-    //   function registerUserForSocket(){
-    //     let user = JSON.parse(localStorage.getItem("user_data"));
-    //     let other_user = JSON.parse(localStorage.getItem("other_user"));
-    //     let chat_session = JSON.parse(localStorage.getItem("chat_session"));
-    //     const socket = io("http://localhost:3000");
-    //     const userId = user.id;
-    //     console.log(user);
-    //     const roomId = chat_session.id;
-    //     socket.emit("registerUser", {
-    //         userId: userId,
-    //         roomId: roomId
-    //     });
-
-        
-    //   }
-
-    //   function sendMessage(){
-    //     let user = JSON.parse(localStorage.getItem("user_data"));
-    //     let other_user = JSON.parse(localStorage.getItem("other_user"));
-    //     let chat_session = JSON.parse(localStorage.getItem("chat_session"));
-    //     let auth_token = localStorage.getItem("auth_token");
-    //     const socket = io("http://localhost:3000");
-    //     const userId = user.id;
-    //     const message = $("#MessageInput").val();
-    //     const roomId = chat_session.id;
-    //     socket.emit("sendMessage", {
-    //         userId: userId,
-    //         roomId: roomId,
-    //         message: message,
-    //         authToken: auth_token
-    //     });
-
-    //     socket.on("receiveMessage", function(data) {
-    //         console.log("receiveMessage"+data);
-    //         let user = JSON.parse(localStorage.getItem("user_data"));
-    //         let other_user = JSON.parse(localStorage.getItem("other_user"));
-
-    //         let html = "";
-    //         if (data.from === user.id) {
-    //             html = sentMessage(data.message, false, user);
-    //         } else {
-    //             html = receivedMessage(data.message, false, other_user);
-    //         }
-    //         $("#ChatContainer").append(html);
-    //     });
-
-    //   }
-
-    //   $("#SendMessageButton").on("click", function(){
-    //     sendMessage();
-    //   })
-
-
-
-
-
-
-
-
+    // ============== chat code area ===========================
 
      function registerUserForSocket(){
         let user = JSON.parse(localStorage.getItem("user_data"));

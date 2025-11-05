@@ -22,16 +22,16 @@
  
  <script>
   if (!localStorage.getItem('auth_token')) {
-    window.location.href = "http://127.0.0.1:8000/";
+     window.location.href = "http://127.0.0.1:8000/";
   } else {
     // Optional backend validation (non-blocking)
-    fetch("http://127.0.0.1:8001/api/auth/check", {
-      headers: { "Authorization": "Bearer " + localStorage.getItem('auth_token') }
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (!data.valid) window.location.href = "http://127.0.0.1:8000/";
-    })
+    // fetch("http://127.0.0.1:8001/api/auth/check", {
+    //   headers: { "Authorization": "Bearer " + localStorage.getItem('auth_token') }
+    // })
+    // .then(res => res.json())
+    // .then(data => {
+    //   if (!data.valid) window.location.href = "http://127.0.0.1:8000/";
+    // })
   }
 </script>
 

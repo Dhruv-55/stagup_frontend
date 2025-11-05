@@ -93,6 +93,15 @@
             });
             
         });
+
+
+
+        function checkTokenValid(){
+            if(localStorage.getItem('auth_token')){
+                window.location.href = '/home';
+            }
+        }
+        checkTokenValid();
     });
 
 
