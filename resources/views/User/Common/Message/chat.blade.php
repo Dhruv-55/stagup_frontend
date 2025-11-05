@@ -14,16 +14,16 @@
 <div class="text-sm font-medium space-y-6" id="ChatContainer">
 
     <!-- received -->
-    <div class="flex gap-3">
+    <!-- <div class="flex gap-3">
         <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-9 h-9 rounded-full shadow">
         <div class="px-4 py-2 rounded-[20px] max-w-sm bg-secondery"> Hi, I’m John </div>
-    </div> 
+    </div>  -->
 
     <!-- sent -->
-    <div class="flex gap-2 flex-row-reverse items-end">
+    <!-- <div class="flex gap-2 flex-row-reverse items-end">
         <img src="assets/images/avatars/avatar-3.jpg" alt="" class="w-5 h-5 rounded-full shadow">
         <div class="px-4 py-2 rounded-[20px] max-w-sm bg-gradient-to-tr from-sky-500 to-blue-500 text-white shadow">  I’m Lisa. welcome John</div>
-    </div> 
+    </div>  -->
 
     <!-- time -->
     <!-- <div class="flex justify-center "> 
@@ -34,7 +34,7 @@
 
 
     <!-- sent media-->
-    <div class="flex gap-2 flex-row-reverse items-end">
+    <!-- <div class="flex gap-2 flex-row-reverse items-end">
         <img src="assets/images/avatars/avatar-3.jpg" alt="" class="w-4 h-4 rounded-full shadow">
     
         <a class="block rounded-[18px] border overflow-hidden" href="messages.html#">
@@ -49,7 +49,7 @@
             </div>
         </a>
 
-    </div> 
+    </div>  -->
     
 </div>
 

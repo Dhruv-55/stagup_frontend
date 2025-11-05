@@ -291,6 +291,7 @@
             type: "GET",
             success: function(response) {
                 if(response.success){
+                    
                     localStorage.removeItem('user_data');
                     localStorage.setItem('user_data', JSON.stringify(response.data));
                 }

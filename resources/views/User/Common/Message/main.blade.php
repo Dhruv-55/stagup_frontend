@@ -1,13 +1,21 @@
 @extends('User.Template.layout')
 
 @section('content')
+<style>
+    @media screen and (max-width: 600px) {
+        .msgArea{
+            margin-top: 60px;
+            position: relative;
+        }
+    }
+</style>
    <div class="flex bg-white dark:bg-dark2">
 
             <!-- sidebar -->
             @include('User.Common.Message.sidebar')
 
             <!-- message center -->
-            <div class="flex-1">
+            <div class="flex-1 msgArea" >
 
                 <!-- chat heading -->
                 @include('User.Common.Message.heading')

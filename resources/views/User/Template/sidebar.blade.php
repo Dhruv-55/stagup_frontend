@@ -31,7 +31,7 @@
                     </a>
                 
                     <!-- Search -->
-                    <a href="home.html#!">
+                    <a href="">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>
@@ -79,7 +79,7 @@
                     </div> 
 
                     <!-- Explore -->
-                    <a href="{{ route('explore') }}" class="max-md:!hidden">
+                    <a href="{{ route('explore') }}" class="">
                         <svg id="icon__outline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
                             <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                             <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
@@ -167,7 +167,7 @@
                         <hr class="opacity-60">
                         <ul class="text-sm font-semibold p-2">
                             <li> <a href="{{ route('profile') }}" class="flex gap-3 rounded-md p-2 hover:bg-secondery"> <ion-icon name="person-outline" class="text-lg"></ion-icon> Profile     </a></li>
-                            <li> <a href="upgrade.html" class="flex gap-3 rounded-md p-2 hover:bg-secondery"> <ion-icon name="bookmark-outline" class="text-lg"></ion-icon> Upgrade </a></li> 
+                            <li> <a href="{{ route('venues') }}" class="flex gap-3 rounded-md p-2 hover:bg-secondery"> <ion-icon name="location-outline" class="text-lg"></ion-icon> Venues     </a></li>
                             <li> <a href="{{ route('profile-setting') }}" class="flex gap-3 rounded-md p-2 hover:bg-secondery"> <ion-icon name="settings-outline" class="text-lg"></ion-icon> Acount Setting  </a></li>
                             <li> <a href="javascript:void(0)" onclick="logout()" class="flex gap-3 rounded-md p-2 hover:bg-secondery"> <ion-icon name="log-out-outline" class="text-lg"></ion-icon> Log Out</a></li>
                         </ul>
