@@ -34,7 +34,30 @@
     // })
   }
 </script>
+<style>
+    #preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000; /* optional background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow-y: hidden;
+}
 
+body.loading {
+  overflow: hidden;
+}
+
+/* Hide when done */
+.hidden {
+  display: none !important;
+}
+</style>
 </head>
 <body>
 @php
@@ -120,7 +143,9 @@
 
     
  
-    
+    <div id="preloader">
+          <img src="/assets/preloader.svg" alt="Loading..." width="120">
+    </div>
     <!-- Uikit js you can use cdn  https://getuikit.com/docs/installation  or fine the latest  https://getuikit.com/docs/installation -->
     <script src="/assets/js/uikit.min.js"></script>
     <script src="/assets/js/script.js"></script>
@@ -345,6 +370,15 @@
     });
   
  
+$(document).ready(function() {
+
+  setTimeout(function() {
+          $('#preloader').fadeOut(500, function() {
+              $('body').removeClass('loading'); // allow scroll again
+              $('#content').fadeIn(500);
+          });
+      }, 2000);
+});
   </script>      
     @yield('ajax-scripts')
 </body>
