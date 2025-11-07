@@ -526,7 +526,7 @@
                     storyItem.onclick = () => openStoryViewer(index);
                     
                     storyItem.innerHTML = `
-                        <div class="md:w-20 md:h-20 w-20 h-20 relative md:border-4 border-2 shadow border-white rounded-full overflow-hidden dark:border-slate-700" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); padding: 3px;">
+                        <div class="md:w-20 md:h-20 w-20 h-20 relative md:border-4 border-2 shadow border-white rounded-full overflow-hidden dark:border-slate-700" style="background: linear-gradient(45deg, black, gold, transparent); padding: 3px;">
                             <div style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 2px solid #0f1419;">
                                 <img src="${story.avatar}" alt="${story.username}" class=" w-full h-full object-cover">
                             </div>

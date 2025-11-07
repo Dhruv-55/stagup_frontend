@@ -5,7 +5,7 @@
     <div class="py-6 relative">
 
         <div class="flex md:gap-16 gap-4 max-md:flex-col">
-            <div class="relative md:p-1 rounded-full h-full max-md:w-16 bg-gradient-to-tr from-pink-400 to-pink-600 shadow-md hover:scale-110 duration-500 uk-animation-scale-up">
+            <div class="relative md:p-1 rounded-full h-full max-md:w-16  shadow-md hover:scale-110 duration-500 uk-animation-scale-up" id="profileImage">
                 <div class="relative md:w-40 md:h-40 h-16 w-16 rounded-full overflow-hidden md:border-[6px] border-gray-100 shrink-0 dark:border-slate-900"> 
                     <img src="assets/images/avatars/avatar-6.jpg" id="img" alt="" class="w-full h-full absolute object-cover">
                 </div>
@@ -93,6 +93,11 @@
                             $("#followers").text(response.data.followers);
                             $("#following").text(response.data.following);
                             $("#posts").text(response.data.posts);
+                        
+                            if (response.data.today_story_posted) {
+                                $("#profileImage").css("background", "linear-gradient(45deg, black, gold, transparent)");
+                            }
+
 
                             let userData = JSON.parse(localStorage.getItem('user_data'));
                             if(userData.id == response.data.id){
@@ -119,10 +124,12 @@
 
                             const imgUrl = response.data.profile?.profile_image ? getImageUrl(response.data.profile?.profile_image) : '/assets/default.png';
                                 $('#img').attr('src', imgUrl);
-                            // $("img").attr("src", response.data.profile?.profile_image);
+                            // $("img").attr("src", response.data.profile?.profile_image);relative md:p-1 rounded-full h-full max-md:w-16 bg-gradient-to-tr from-pink-400 to-pink-600 shadow-md hover:scale-110 duration-500 uk-animation-scale-up
                                 if (!response.data.profile || !response.data.profile || !response.data.profile) {
                                 //    getUserLocation(); 
                                 }
+
+
                         }
                     }
                 },
