@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instello - Join Open Mic</title>
+    <title>{{ env('APP_NAME') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -15,9 +15,9 @@
         <div class="max-w-md w-full">
             <!-- Logo Section -->
             <div class="text-center mb-8 fade-in">
-                <!-- <div class="inline-block gradient-bg text-white text-4xl font-bold px-6 py-3 rounded-2xl mb-4 shadow-2xl">
-                    Instello
-                </div> -->
+                <div class="inline-block text-white text-4xl font-bold ">
+                    <img src="/assets/logo.png" alt="" class="w-40">
+                </div>
                 <!-- <p class="text-slate-400 text-sm">Your Gateway to Open Mic Performances</p> -->
             </div>
             

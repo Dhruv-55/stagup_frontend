@@ -117,7 +117,7 @@
                                 $("#followSection").css("display", "none");
                             }
 
-                            const imgUrl = response.data.profile?.profile_image ? getImageUrl(response.data.profile?.profile_image) : '/assets/images/avatars/avatar-1.jpg';
+                            const imgUrl = response.data.profile?.profile_image ? getImageUrl(response.data.profile?.profile_image) : '/assets/default.png';
                                 $('#img').attr('src', imgUrl);
                             // $("img").attr("src", response.data.profile?.profile_image);
                                 if (!response.data.profile || !response.data.profile || !response.data.profile) {

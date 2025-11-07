@@ -199,7 +199,7 @@
             }, 4000);
         }
          function getImageUrl(path) {
-                if (!path) return "assets/images/avatars/avatar-3.jpg"; // fallback avatar
+                if (!path) return "assets/default.png"; // fallback avatar
 
                 // If already full URL (e.g., starts with http)
                 if (path.startsWith('http')) return path;
@@ -310,8 +310,8 @@
         $('#SidebarHeading').text(userData.profile?.display_name); 
         $('#SidebarDropHeading').text(userData.username); 
         $('#SidebarDropSubHeading').text(userData.username); 
-        $('#SidebarDropImage').attr('src', getImageUrl(userData.profile?.profile_image)); 
-        $('#SidebarImage').attr('src', userData.profile?.profile_image ? getImageUrl(userData.profile?.profile_image) : '/assets/images/avatars/avatar-1.jpg'); 
+        $('#SidebarDropImage').attr('src', getImageUrl(userData.profile?.profile_image) || '/assets/default.png'); 
+        $('#SidebarImage').attr('src', userData.profile?.profile_image ? getImageUrl(userData.profile?.profile_image) : '/assets/default.png'); 
         // $('#SidebarDropFollowing').text(userData.profile?.following); 
         // $('#SidebarDropFollowers').text(userData.profile?.followers); 
         // console.log(userData.role_type)
