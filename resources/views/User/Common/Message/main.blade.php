@@ -8,6 +8,22 @@
             position: relative;
         }
     }
+    .empty-chat-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        min-height: 500px;
+        padding: 2rem;
+        text-align: center;
+    }
+    .empty-chat-icon {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 2rem;
+        opacity: 0.6;
+    }
 </style>
    <div class="flex bg-white dark:bg-dark2">
 
@@ -17,14 +33,32 @@
             <!-- message center -->
             <div class="flex-1 msgArea" >
 
-                <!-- chat heading -->
-                @include('User.Common.Message.heading')
-                    
-                <!-- chats bubble -->
-                @include('User.Common.Message.chat')
+                <!-- Empty state (shown by default) -->
+                <div id="EmptyChatState" class="empty-chat-state">
+                    <svg class="empty-chat-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">Start a Conversation</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md">Select a contact from the sidebar to begin chatting, or search for someone to message.</p>
+                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span>Your messages are end-to-end encrypted</span>
+                    </div>
+                </div>
 
-                <!-- sending message area -->
-                @include('User.Common.Message.send')
+                <!-- Chat area (hidden by default) -->
+                <div id="ChatArea" style="display: none;">
+                    <!-- chat heading -->
+                    @include('User.Common.Message.heading')
+                        
+                    <!-- chats bubble -->
+                    @include('User.Common.Message.chat')
+
+                    <!-- sending message area -->
+                    @include('User.Common.Message.send')
+                </div>
 
             </div>
 
@@ -38,253 +72,269 @@
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
 <script>
+$(document).ready(function(){
+    let socket = io("http://localhost:3000");
+   
+   function userSearch(){
+     $.ajax({
+        url: MainURL + "/message/search",
+        type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + MainToken
+        },
+        data: {
+            search: $("#MessagePageSearch").val()
+        },
+        success: function(response){
+            let html = "";
+           response.data.forEach(element => {
+               html += `
+               <a href="javascript:void(0);" onclick="loadUser(${element.id})" class="relative flex items-center gap-4 p-2 duration-200 rounded-xl hover:bg-secondery">
+                        <div class="relative w-14 h-14 shrink-0"> 
+                            <img src="${getImageUrl(element.profile?.profile_image)}" alt="" class="object-cover w-full h-full rounded-full">
+                            <div class="w-4 h-4 absolute bottom-0 right-0  bg-green-500 rounded-full border border-white dark:border-slate-800"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <div class="mr-auto text-sm text-black dark:text-white font-medium">${element.profile?.display_name || element.username}</div>
+                                <div class="text-xs font-light text-gray-500 dark:text-white/70">${ element.last_message?.created_at ? humanizeDate(element.last_message?.created_at) : ""}</div> 
+                            </div>
+                            <div class="font-medium overflow-hidden text-ellipsis text-sm whitespace-nowrap">${element.last_message?.message || ""}</div>
+                        </div>
+                    </a>
+               `;
+           });
+           $("#MessageUserList").html(html);
+        }
+    })
+   }
+   
+   $("#MessagePageSearch").on("input", function(){
+       userSearch();
+   })
 
-    $(document).ready(function(){
-        let socket = io("http://localhost:3000");
-       function userSearch(){
-         $.ajax({
-            url: MainURL + "/message/search",
+   // Function to render chat header
+   function renderChatHeader(user) {
+       let html = `
+       <div class="flex items-center gap-2" id="ChatHeader">
+           <div class="relative cursor-pointer max-md:hidden"  uk-toggle="target: .rightt ; cls: hidden">
+               <img src="${getImageUrl(user.profile?.profile_image)}" alt="" class="w-8 h-8 rounded-full shadow">
+               <div class="w-2 h-2 bg-teal-500 rounded-full absolute right-0 bottom-0 m-px"></div>
+           </div>
+           <div class="cursor-pointer" uk-toggle="target: .rightt ; cls: hidden">
+               <div class="text-base font-bold">${user.profile?.display_name || user.username}</div>
+               <div class="text-xs text-green-500 font-semibold"> Online</div>
+           </div>
+       </div>
+       `;
+       $("#ChatHeader").html(html);
+   }
+
+   window.loadUser = function(id){
+        // Hide empty state and show chat area
+        $("#EmptyChatState").hide();
+        $("#ChatArea").show();
+        
+        $.ajax({
+            url: MainURL + "/message/load-user/",
             type: "GET",
             headers: {
                 'Authorization': 'Bearer ' + MainToken
             },
             data: {
-                search: $("#MessagePageSearch").val()
+                user_id: id
             },
             success: function(response){
-                let html = "";
-               response.data.forEach(element => {
-                   html += `
-                   <a href="javascript:void(0);" onclick="loadUser(${element.id})" class="relative flex items-center gap-4 p-2 duration-200 rounded-xl hover:bg-secondery">
-                            <div class="relative w-14 h-14 shrink-0"> 
-                                <img src="${getImageUrl(element.profile?.profile_image)}" alt="" class="object-cover w-full h-full rounded-full">
-                                <div class="w-4 h-4 absolute bottom-0 right-0  bg-green-500 rounded-full border border-white dark:border-slate-800"></div>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <div class="mr-auto text-sm text-black dark:text-white font-medium">${element.profile?.display_name || element.username}</div>
-                                    <div class="text-xs font-light text-gray-500 dark:text-white/70">${ element.last_message?.created_at ? humanizeDate(element.last_message?.created_at) : ""}</div> 
-                                </div>
-                                <div class="font-medium overflow-hidden text-ellipsis text-sm whitespace-nowrap">${element.last_message?.message || ""}</div>
-                            </div>
-                        </a>
-                   `;
-               });
-               $("#MessageUserList").html(html);
+                let {user} = response.data;
+                localStorage.removeItem("other_user");
+                localStorage.setItem("other_user", JSON.stringify(user));
+                console.log(user);
+                
+                // Render chat header
+                renderChatHeader(user);
+                loadChats();
             }
         })
-       }
-       $("#MessagePageSearch").on("input", function(){
-           userSearch();
-       })
+   }
+   
 
-       window.loadUser = function(id){
-            $.ajax({
-                url: MainURL + "/message/load-user/",
-                type: "GET",
-                headers: {
-                    'Authorization': 'Bearer ' + MainToken
-                },
-                data: {
-                    user_id: id
-                },
-                success: function(response){
-                    let {user} = response.data;
-                    console.log(user);
-                    localStorage.removeItem("other_user");
-                    localStorage.setItem("other_user", JSON.stringify(user));
-                    console.log(user);
-                    let html = "";
-                    html += `
-                    <div class="flex items-center gap-2" id="ChatHeader">
-                        <div class="relative cursor-pointer max-md:hidden"  uk-toggle="target: .rightt ; cls: hidden">
-                            <img src="${getImageUrl(user.profile?.profile_image)}" alt="" class="w-8 h-8 rounded-full shadow">
-                            <div class="w-2 h-2 bg-teal-500 rounded-full absolute right-0 bottom-0 m-px"></div>
-                        </div>
-                        <div class="cursor-pointer" uk-toggle="target: .rightt ; cls: hidden">
-                            <div class="text-base font-bold">${user.profile?.display_name || user.username}</div>
-                            <div class="text-xs text-green-500 font-semibold"> Online</div>
-                        </div>
-                    </div>
-                    `;
-                    $("#ChatHeader").html(html);
-                    loadChats();
-                    // let chatHtml = "";
-                    // response.data.messages.forEach(element => {
-                    //     console.log(element);
-                    //     if(element.sender_id == user.id){
-                    //         chatHtml += sentMessage(element.message,element.is_media,user);
-                    //     }else{
-                    //         chatHtml += receivedMessage(element.message,element.is_media,user);
-                    //     }
-                    // });
-                    // $("#ChatContainer").html(chatHtml);
-                }
-            })
-       }
-       
-
-       function receivedMessage(message,is_media,user)
-       {
-            let html = "";
-            html += `
-                <div class="flex gap-3">
-                    <img src="${user?.profile ? getImageUrl(user.profile?.profile_image) : ""}" alt="" class="w-9 h-9 rounded-full shadow">
-                    <div class="px-4 py-2 rounded-[20px] max-w-sm bg-secondery"> ${message} </div>
-                </div> 
-            `;
-            return html;
-        }
-
-        function sentMessage(message,is_media,user){
-            let html = "";
-            html += `
-                <div class="flex gap-2 flex-row-reverse items-end">
-                    <img src="${user?.profile ? getImageUrl(user.profile?.profile_image) : ""}" alt="" class="w-5 h-5 rounded-full shadow">
-                    <div class="px-4 py-2 rounded-[20px] max-w-sm bg-gradient-to-tr from-sky-500 to-blue-500 text-white shadow"> ${message} </div>
-                </div>  
-            `;
-            return html;
-        }
-
-
-        function loadChats(){
-            let user = JSON.parse(localStorage.getItem("user_data"));
-            let other_user = JSON.parse(localStorage.getItem("other_user"));
-            $.ajax({
-                url: MainURL + "/message/load-chats/",
-                type: "GET",
-                headers: {
-                    'Authorization': 'Bearer ' + MainToken
-                },
-                data: {
-                    other_user_id: other_user.id
-                },
-                success: function(response){
-                    localStorage.removeItem("chat_session");
-                    localStorage.setItem("chat_session", JSON.stringify(response.data.chat_session));
-                    registerUserForSocket();
-
-                    let html = "";
-                    response.data.chats.forEach(element => {
-                        console.log(element.user_id == other_user.id+ " "+ other_user.id)
-                        if(element.user_id != other_user.id){
-                            html += sentMessage(element.message,element.is_media,user);
-                        }else{
-                            html += receivedMessage(element.message,element.is_media,user);
-                        }
-                    });
-                    $("#ChatContainer").html(html);
-                }
-            })
-        }
-            
-       userSearch();
-       loadChats();
-
-
-    // ============== chat code area ===========================
-
-     function registerUserForSocket(){
-        let user = JSON.parse(localStorage.getItem("user_data"));
-        let chat_session = JSON.parse(localStorage.getItem("chat_session"));
-        
-        // Disconnect existing socket if any
-        if(socket) {
-            socket.disconnect();
-        }
-        
-        // Create new socket connection
-        socket = io("http://localhost:3000");
-        
-        const userId = user.id;
-        const roomId = chat_session.id;
-        
-        console.log("Registering user:", userId, "Room:", roomId);
-        
-        socket.emit("registerUser", {
-            userId: userId,
-            roomId: roomId
-        });
-
-        // Listen for incoming messages - THIS SHOULD BE HERE, NOT IN sendMessage()
-        socket.on("receiveMessage", function(data) {
-            console.log("Message received:", data);
-            
-            let user = JSON.parse(localStorage.getItem("user_data"));
-            let other_user = JSON.parse(localStorage.getItem("other_user"));
-
-            let html = "";
-            if (data.from === user.id) {
-                html = sentMessage(data.message, false, user);
-            } else {
-                html = receivedMessage(data.message, false, other_user);
-            }
-            
-            $("#ChatContainer").append(html);
-            
-            // Optional: Scroll to bottom
-            $("#ChatContainer").scrollTop($("#ChatContainer")[0].scrollHeight);
-        });
-
-        // Listen for connection status
-        socket.on("connect", function() {
-            console.log("Socket connected:", socket.id);
-        });
-
-        socket.on("disconnect", function() {
-            console.log("Socket disconnected");
-        });
-
-        socket.on("error", function(error) {
-            console.error("Socket error:", error);
-        });
+   function receivedMessage(message,is_media,user)
+   {
+        let html = "";
+        html += `
+            <div class="flex gap-3">
+                <img src="${user?.profile ? getImageUrl(user.profile?.profile_image) : "/assets/default.png"}" alt="" class="w-9 h-9 rounded-full shadow">
+                <div class="px-4 py-2 rounded-[20px] max-w-sm bg-secondery"> ${message} </div>
+            </div> 
+        `;
+        return html;
     }
 
-    function sendMessage(){
-        if(!socket || !socket.connected) {
-            console.error("Socket not connected");
+    function sentMessage(message,is_media,user){
+        let html = "";
+        html += `
+            <div class="flex gap-2 flex-row-reverse items-end">
+                <img src="${user?.profile ? getImageUrl(user.profile?.profile_image) : "/assets/default.png"}" alt="" class="w-5 h-5 rounded-full shadow">
+                <div class="px-4 py-2 rounded-[20px] max-w-sm bg-gradient-to-tr from-sky-500 to-blue-500 text-white shadow"> ${message} </div>
+            </div>  
+        `;
+        return html;
+    }
+
+
+    function loadChats(){
+        let user = JSON.parse(localStorage.getItem("user_data"));
+        let other_user = JSON.parse(localStorage.getItem("other_user"));
+        
+        if(!other_user) {
+            // Show empty state if no user selected
+            $("#EmptyChatState").show();
+            $("#ChatArea").hide();
             return;
         }
+        
+        $.ajax({
+            url: MainURL + "/message/load-chats/",
+            type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + MainToken
+            },
+            data: {
+                other_user_id: other_user.id
+            },
+            success: function(response){
+                localStorage.removeItem("chat_session");
+                localStorage.setItem("chat_session", JSON.stringify(response.data.chat_session));
+                registerUserForSocket();
 
+                let html = "";
+                response.data.chats.forEach(element => {
+                    console.log(element.user_id == other_user.id+ " "+ other_user.id)
+                    if(element.user_id != other_user.id){
+                        html += sentMessage(element.message,element.is_media,user);
+                    }else{
+                        html += receivedMessage(element.message,element.is_media,user);
+                    }
+                });
+                $("#ChatContainer").html(html);
+            }
+        })
+    }
+        
+   userSearch();
+   
+   // Check if user was previously selected and restore state
+   let other_user = JSON.parse(localStorage.getItem("other_user"));
+   if(other_user) {
+       $("#EmptyChatState").hide();
+       $("#ChatArea").show();
+       // Restore chat header
+       renderChatHeader(other_user);
+       loadChats();
+   }
+
+
+// ============== chat code area ===========================
+
+ function registerUserForSocket(){
+    let user = JSON.parse(localStorage.getItem("user_data"));
+    let chat_session = JSON.parse(localStorage.getItem("chat_session"));
+    
+    // Disconnect existing socket if any
+    if(socket) {
+        socket.disconnect();
+    }
+    
+    // Create new socket connection
+    socket = io("http://localhost:3000");
+    
+    const userId = user.id;
+    const roomId = chat_session.id;
+    
+    console.log("Registering user:", userId, "Room:", roomId);
+    
+    socket.emit("registerUser", {
+        userId: userId,
+        roomId: roomId
+    });
+
+    // Listen for incoming messages
+    socket.on("receiveMessage", function(data) {
+        console.log("Message received:", data);
+        
         let user = JSON.parse(localStorage.getItem("user_data"));
-        let chat_session = JSON.parse(localStorage.getItem("chat_session"));
-        let auth_token = localStorage.getItem("auth_token");
-        
-        const userId = user.id;
-        const message = $("#MessageInput").val();
-        const roomId = chat_session.id;
+        let other_user = JSON.parse(localStorage.getItem("other_user"));
 
-        if(!message.trim()) {
-            return; // Don't send empty messages
+        let html = "";
+        if (data.from === user.id) {
+            html = sentMessage(data.message, false, user);
+        } else {
+            html = receivedMessage(data.message, false, other_user);
         }
-
-        console.log("Sending message:", message);
         
-        socket.emit("sendMessage", {
-            userId: userId,
-            roomId: roomId,
-            message: message,
-            authToken: auth_token
-        });
+        $("#ChatContainer").append(html);
+        
+        // Scroll to bottom
+        $("#ChatContainer").scrollTop($("#ChatContainer")[0].scrollHeight);
+    });
 
-        // Clear input after sending
-        $("#MessageInput").val("");
+    // Listen for connection status
+    socket.on("connect", function() {
+        console.log("Socket connected:", socket.id);
+    });
+
+    socket.on("disconnect", function() {
+        console.log("Socket disconnected");
+    });
+
+    socket.on("error", function(error) {
+        console.error("Socket error:", error);
+    });
+}
+
+function sendMessage(){
+    if(!socket || !socket.connected) {
+        console.error("Socket not connected");
+        return;
     }
 
-    $("#SendMessageButton").on("click", function(){
-        sendMessage();
-        
+    let user = JSON.parse(localStorage.getItem("user_data"));
+    let chat_session = JSON.parse(localStorage.getItem("chat_session"));
+    let auth_token = localStorage.getItem("auth_token");
+    
+    const userId = user.id;
+    const message = $("#MessageInput").val();
+    const roomId = chat_session.id;
+
+    if(!message.trim()) {
+        return; // Don't send empty messages
+    }
+
+    console.log("Sending message:", message);
+    
+    socket.emit("sendMessage", {
+        userId: userId,
+        roomId: roomId,
+        message: message,
+        authToken: auth_token
     });
 
-    // Optional: Send message on Enter key
-    $("#MessageInput").on("keypress", function(e){
-        if(e.which === 13 && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-      
-    })
+    // Clear input after sending
+    $("#MessageInput").val("");
+}
+
+$("#SendMessageButton").on("click", function(){
+    sendMessage();
+});
+
+// Send message on Enter key
+$("#MessageInput").on("keypress", function(e){
+    if(e.which === 13 && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+  
+})
 </script>
 @endsection
