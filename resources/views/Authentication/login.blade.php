@@ -9,6 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('authentication/css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/common/css/toaster.css') }}">
+    <style>
+        input{
+            color: black !important;
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen">
     <div class="flex flex-col min-h-screen justify-center items-center px-4 py-8">
@@ -49,7 +54,7 @@
                                    id="password" name="password" type="password" placeholder="Create a password" required>
                         </div>
                         
-                        <button type="submit" id="login" class="btn-primary w-full rounded-xl py-3.5 text-white font-semibold text-lg mt-6 shadow-lg">
+                        <button type="submit" id="login" class="btn-primary bg-[#B8860B] w-full rounded-xl py-3.5 text-white font-semibold text-lg mt-6 shadow-lg">
                             Login
                         </button>
                         
