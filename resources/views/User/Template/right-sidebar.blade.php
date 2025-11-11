@@ -188,7 +188,7 @@
 
 
                             <!-- Pro Members -->
-                            <div class="bg-white rounded-xl shadow-sm p-5 px-6 border1 dark:bg-dark2 mb-20 mt-5">
+                            <!-- <div class="bg-white rounded-xl shadow-sm p-5 px-6 border1 dark:bg-dark2 mb-20 mt-5">
 
                                 <div class="flex justify-between text-black dark:text-white">
                                     <h3 class="font-bold text-base"> Pro Members </h3>
@@ -256,7 +256,7 @@
                                 </div>
  
     
-                            </div>
+                            </div> -->
 
 
                             <!-- Trends -->

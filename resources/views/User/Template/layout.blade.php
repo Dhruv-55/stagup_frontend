@@ -288,7 +288,7 @@ body.loading {
                     response.data.forEach(element => {
                        html+=`
                        <a href="/profile/${element.id}" class="relative flex items-center gap-3 p-2 duration-200 rounded-xl hover:bg-secondery">
-                            <img src="${getImageUrl(element.profile?.profile_image)}" alt="" class="bg-gray-200 rounded-full w-10 h-10">
+                            <img src="${getImageUrl(element.profile?.profile_image) ?? '/assets/default.png'}" alt="" class="bg-gray-200 rounded-full w-10 h-10">
                             <div class="fldex-1 min-w-0">
                                 <h4 class="font-medium text-sm text-black dark:text-white">  ${element.username} </h4>
                                 <div class="text-xs text-gray-500 font-normal mt-0.5 dark:text-white-80"> Suggested For You </div>
