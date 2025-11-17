@@ -124,9 +124,70 @@
                 }
             });
         }
+
+
+        function loadPeopleYouMightKnow() {
+            $.ajax({
+                url: BaseURL + "/general/peopleMightKnow",
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                type: "GET",
+                success: function(response) {
+                    console.log(response);
+                    if (response.data && response.data.length > 0) {
+                        var html = '';
+                        response.data.forEach(function(item) {
+                            html += `
+                                
+                                   <div class="flex items-center gap-3 mb-4">
+                                  
+                                        <div class="relative">
+                                         <a href="/profile/${item.id}">
+                                            <img src="${item.profile?.profile_image ? getImageUrl(item.profile.profile_image) : '/assets/default.png'}" alt="Profile" class="w-10 h-10 rounded-full object-cover">
+                                        </a>  
+                                            </div>
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-sm">${item.username}</h3>
+                                            <p class="text-xs text-gray-500">${item.email}</p>
+                                        </div>
+                                        <button class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-blue-600 transition" onclick="followUser(${item.id})">Follow</button>
+                               
+                                    </div>
+                              `;
+                        });
+                        $("#PeopleYouMightKnowSection").html(html);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
         
+          window.followUser = function(id){
+            console.log(id);
+            $.ajax({
+                url: BaseURL + "/general/follow/",
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                type: "POST",
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    if(response.success){
+                        loadPeopleYouMightKnow();
+                    }
+                },
+            });
+        }
         // Initial load
         loadData(1, false);
+        // loadPeopleYouMightKnow();
+        loadPeopleYouMightKnow();
+        
     });
 </script>
         <script>
@@ -617,6 +678,8 @@
             });
             */
           
+
+            
         </script>
 
         <script>

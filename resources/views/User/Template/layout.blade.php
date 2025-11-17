@@ -390,6 +390,7 @@ body.loading {
         }
     });
 </script> 
+
  @yield('ajax-scripts')
 </body>
 </html>

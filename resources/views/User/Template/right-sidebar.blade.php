@@ -3,68 +3,20 @@
                         <div class="xl:space-y-6 space-y-3 md:pb-12"  uk-sticky="end: #js-oversized; offset: 50; media:992">
 
                             <!-- peaple you might know -->
-                            <!-- <div class="bg-white rounded-xl shadow-sm p-5 px-6 border1 dark:bg-dark2">
+                            <div class="bg-white rounded-xl shadow-sm p-5 px-6 border1 dark:bg-dark2">
                                 
                                 <div class="flex justify-between text-black dark:text-white">
                                     <h3 class="font-bold text-base"> Peaple You might know </h3>
-                                    <button type="button"> <ion-icon name="sync-outline" class="text-xl"></ion-icon> </button>
+                                    <!-- <button type="button"> <ion-icon name="sync-outline" class="text-xl"></ion-icon> </button> -->
                                 </div>
     
-                                <div class="space-y-4 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
+                                <div class="space-y-4 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80" id="PeopleYouMightKnowSection">
     
-                                    <div class="flex items-center gap-3">
-                                        <a href="profile.html">
-                                            <img src="assets/images/avatars/avatar-7.jpg" alt="" class="bg-gray-200 rounded-full w-10 h-10">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="profile.html"><h4 class="font-semibold text-sm text-black dark:text-white">  Johnson smith</h4></a>
-                                            <div class="mt-0.5"> Suggested For You </div>
-                                        </div>
-                                        <button type="button" class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery"> Follow </button>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <a href="profile.html">
-                                            <img src="assets/images/avatars/avatar-5.jpg" alt="" class="bg-gray-200 rounded-full w-10 h-10">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="profile.html"><h4 class="font-semibold text-sm text-black dark:text-white"> James Lewis</h4></a>
-                                            <div class="mt-0.5"> Followed by Johnson </div>
-                                        </div>
-                                        <button type="button" class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery"> Follow </button>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <a href="profile.html">
-                                            <img src="assets/images/avatars/avatar-2.jpg" alt="" class="bg-gray-200 rounded-full w-10 h-10">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="profile.html"><h4 class="font-semibold text-sm text-black dark:text-white"> John Michael</h4></a>
-                                            <div class="mt-0.5"> Followed by Monroe  </div>
-                                        </div>
-                                        <button type="button" class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery"> Follow </button>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <a href="profile.html">
-                                            <img src="assets/images/avatars/avatar-3.jpg" alt="" class="bg-gray-200 rounded-full w-10 h-10">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="profile.html"><h4 class="font-semibold text-sm text-black dark:text-white">  Monroe Parker</h4></a>
-                                            <div class="mt-0.5"> Suggested For You </div>
-                                        </div>
-                                        <button type="button" class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery"> Follow </button>
-                                    </div> 
-                                    <div class="flex items-center gap-3">
-                                        <a href="profile.html">
-                                            <img src="assets/images/avatars/avatar-4.jpg" alt="" class="bg-gray-200 rounded-full w-10 h-10">
-                                        </a>
-                                        <div class="flex-1">
-                                            <a href="profile.html"><h4 class="font-semibold text-sm text-black dark:text-white">  Martin Gray</h4></a>
-                                            <div class="mt-0.5"> Suggested For You </div>
-                                        </div>
-                                        <button type="button" class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery"> Follow </button>
-                                    </div>
+                                  
+                                  
                                 </div>
     
-                            </div> -->
+                            </div>
     
 
                             <!-- latest marketplace items -->
