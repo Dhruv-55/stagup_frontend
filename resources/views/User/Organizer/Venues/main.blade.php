@@ -146,6 +146,14 @@
                         </div>
                     </div>
 
+
+                    <div class="md:flex items-center gap-10">
+                        <label class="md:w-32 text-right"> Pincode * </label>
+                        <div class="flex-1 max-md:mt-4">
+                            <input type="text" name="pincode" required class="w-full">
+                        </div>
+                    </div>
+
                     <div class="md:flex items-center gap-10">
                         <label class="md:w-32 text-right"> Capacity * </label>
                         <div class="flex-1 max-md:mt-4">
@@ -256,6 +264,12 @@
                         </div>
                     </div>
 
+                    <div class="md:flex items-center gap-10">
+                        <label class="md:w-32 text-right"> Pincode * </label>
+                        <div class="flex-1 max-md:mt-4">
+                            <input type="number" name="pincode" id="edit_pincode" required min="1" class="w-full">
+                        </div>
+                    </div>
                     <div class="md:flex items-center gap-10">
                         <label class="md:w-32 text-right"> Capacity * </label>
                         <div class="flex-1 max-md:mt-4">
@@ -420,12 +434,14 @@ $(document).ready(function() {
             address: $('[name="address"]', this).val(),
             city: $('[name="city"]', this).val(),
             state: $('[name="state"]', this).val(),
+            pin_code: $('[name="pincode"]', this).val(),
             country: $('[name="country"]', this).val(),
             capacity: $('[name="capacity"]', this).val(),
             contact_email: $('[name="contact_email"]', this).val(),
             contact_phone: $('[name="contact_phone"]', this).val(),
             is_verified: $('[name="is_verified"]', this).is(':checked') ? 1 : 0,
             is_available: $('[name="is_available"]', this).is(':checked') ? 1 : 0
+
         };
 
         $.ajax({
@@ -485,7 +501,7 @@ $(document).ready(function() {
                     $('#edit_contact_phone').val(venue.contact_phone);
                     $('#edit_is_verified').prop('checked', venue.is_verified);
                     $('#edit_is_available').prop('checked', venue.is_available);
-                    
+                    $('#edit_pincode').val(venue.pin_code);
                     UIkit.modal('#edit-venue-modal').show();
                 }
             }
@@ -503,6 +519,7 @@ $(document).ready(function() {
             address: $('#edit_address').val(),
             city: $('#edit_city').val(),
             state: $('#edit_state').val(),
+            pin_code: $('#edit_pincode').val(),
             country: $('#edit_country').val(),
             capacity: $('#edit_capacity').val(),
             contact_email: $('#edit_contact_email').val(),

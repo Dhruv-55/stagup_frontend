@@ -594,12 +594,141 @@
                 loadStories();
             });
 
+
+            // function getUserLocation() {
+            //         fetch("https://ipinfo.io/json?token=c72ee69f4cae46")
+            //         .then((response) => response.json())
+            //         .then((data) => {
+
+            //             console.log(data);
+            //             // Autofill the form fields
+            //             // document.getElementById("city").value = data.city || '';
+            //             // document.getElementById("state").value = data.region || '';
+            //         })
+            //         .catch((error) => {
+            //             console.error("Failed to fetch location data:", error);
+            //         });
+            // }
+            // getUserLocation();
             // If using jQuery, use this instead:
             /*
             $(document).ready(function() {
                 loadStories();
             });
             */
+          
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                let userData = localStorage.getItem('user_data');
+                userData = JSON.parse(userData);
+                $.ajax({
+                    url: MainURL + "/user-location/is-today-location-updated",
+                    headers: {
+                        'Authorization': 'Bearer ' + MainToken
+                    },
+                    data: {
+                        user_id: userData.id
+                    },
+                    type: "GET",
+                    success: function(response) {
+                        if(response.success){
+                            let location_updated = response.data.isTodayLocationUpdated;
+                            if(!location_updated){
+                                
+
+                            if (!navigator.geolocation) {
+                                console.error("Geolocation is not supported by your browser.");
+                                return;
+                            }
+
+                            const options = {
+                                enableHighAccuracy: true,
+                                timeout: 10000,
+                                maximumAge: 60000
+                            };
+
+                            navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                const lat = position.coords.latitude;
+                                const lon = position.coords.longitude;
+
+                                console.log("✅ Coordinates:");
+                                console.log("Latitude:", lat);
+                                console.log("Longitude:", lon);
+
+                                // Call OpenStreetMap reverse geocoding API
+                                $.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`, function (data) {
+                                    if (data && data.address) {
+                                    const address = data.address;
+
+                                    const city = address.city || address.town || address.village || address.county || "Unknown";
+                                    const state = address.state || "Unknown";
+                                    const country = address.country || "Unknown";
+                                    const pincode = address.postcode || "Unknown";
+
+                                    
+                                        $.ajax({
+                                            url: MainURL + "/user-location/update-or-create",
+                                            headers: {
+                                                'Authorization': 'Bearer ' + MainToken
+                                            },
+                                            data: {
+                                                user_id: userData.id,
+                                                latitude: lat,
+                                                longitude: lon,
+                                                city: city,
+                                                state: state,
+                                                country: country,
+                                                pincode: pincode
+                                            },
+                                            type: "POST",
+                                            success: function(response) {
+                                                console.log(response);
+                                                if(response.success){
+                                                    localStorage.setItem('user_location', JSON.stringify(response.data));
+                                                }
+                                            },
+                                            error: function(error) {
+                                                console.log(error);
+                                            }
+                                        });    
+
+
+                                    } else {
+                                    console.warn("⚠️ Unable to get detailed address info.");
+                                    }
+                                }).fail(function (err) {
+                                    console.error("❌ Reverse geocoding failed:", err);
+                                });
+                                },
+                                function (error) {
+                                switch (error.code) {
+                                    case error.PERMISSION_DENIED:
+                                    console.error("❌ Permission denied by user.");
+                                    break;
+                                    case error.POSITION_UNAVAILABLE:
+                                    console.error("❌ Position unavailable.");
+                                    break;
+                                    case error.TIMEOUT:
+                                    console.error("⏳ Location request timed out.");
+                                    break;
+                                    default:
+                                    console.error("⚠️ Unknown error:", error.message);
+                                }
+                                },
+                                options
+                            );
+
+                            }
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                })
+            });
         </script>
     @endsection
 </div>

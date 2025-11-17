@@ -339,7 +339,7 @@ body.loading {
         $('#SidebarImage').attr('src', userData.profile?.profile_image ? getImageUrl(userData.profile?.profile_image) : '/assets/default.png'); 
         // $('#SidebarDropFollowing').text(userData.profile?.following); 
         // $('#SidebarDropFollowers').text(userData.profile?.followers); 
-        // console.log(userData.role_type)
+        console.log(userData.role_type)
         if(userData.role_type!=="organizer"){
             $('#venues').css('display','none');
         }else{
@@ -370,16 +370,26 @@ body.loading {
     });
   
  
-$(document).ready(function() {
+    $(document).ready(function() {
 
-  setTimeout(function() {
-          $('#preloader').fadeOut(500, function() {
-              $('body').removeClass('loading'); // allow scroll again
-              $('#content').fadeIn(500);
-          });
-      }, 2000);
-});
-  </script>      
-    @yield('ajax-scripts')
+    setTimeout(function() {
+            $('#preloader').fadeOut(500, function() {
+                $('body').removeClass('loading'); // allow scroll again
+                $('#content').fadeIn(500);
+            });
+        }, 2000);
+    });
+  </script>  
+<script>
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            const loc = localStorage.getItem("user_location");
+            if (loc) {
+                xhr.setRequestHeader('X-User-Location', loc);
+            }
+        }
+    });
+</script> 
+ @yield('ajax-scripts')
 </body>
 </html>
