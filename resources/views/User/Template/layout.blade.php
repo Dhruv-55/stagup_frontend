@@ -58,6 +58,7 @@ body.loading {
   display: none !important;
 }
 </style>
+@laravelPWA
 </head>
 <body>
 @php
@@ -392,5 +393,51 @@ body.loading {
 </script> 
 
  @yield('ajax-scripts')
+
+ <script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/firebase-messaging-sw.js")
+        .then(reg => console.log("Service Worker registered"));
+}
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-messaging.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD4tanKuBcd9l-QbgXEStJmwpz0HMOYnsc",
+    authDomain: "naqaab-studio.firebaseapp.com",
+    projectId: "naqaab-studio",
+    storageBucket: "naqaab-studio.firebasestorage.app",
+    messagingSenderId: "67943032032",
+    appId: "1:67943032032:web:d9d9dd84bda52dfae41c85",
+    measurementId: "G-RC1C8S48Z2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // ✔ Ask permission
+  Notification.requestPermission().then(async permission => {
+      if (permission === "granted") {
+          const token = await getToken(messaging, {
+              vapidKey: "BLqxo-arukVTSdSRkUvl4BPDd7OwThWougMjBUdWilBSE0JuMHhgxyazOUAfjCCcaqhnhjYe8oQUekzFFq_Ch0A"
+          });
+          
+          console.log("FCM Token:", token);
+
+          // TODO: send token to your backend (Laravel)
+      } else {
+          console.log("Permission denied");
+      }
+  });
+
+  // ✔ Receive notification while page is open
+  onMessage(messaging, (payload) => {
+      console.log("Foreground Message:", payload);
+      alert(`${payload.notification.title}\n${payload.notification.body}`);
+  });
+</script>
+
 </body>
 </html>

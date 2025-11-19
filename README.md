@@ -59,3 +59,46 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- step for firebase message -->
+
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyD4tanKuBcd9l-QbgXEStJmwpz0HMOYnsc",
+    authDomain: "naqaab-studio.firebaseapp.com",
+    projectId: "naqaab-studio",
+    storageBucket: "naqaab-studio.firebasestorage.app",
+    messagingSenderId: "67943032032",
+    appId: "1:67943032032:web:d9d9dd84bda52dfae41c85",
+    measurementId: "G-RC1C8S48Z2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+vapid_key="BLqxo-arukVTSdSRkUvl4BPDd7OwThWougMjBUdWilBSE0JuMHhgxyazOUAfjCCcaqhnhjYe8oQUekzFFq_Ch0A	"
