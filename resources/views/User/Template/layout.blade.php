@@ -396,11 +396,12 @@ body.loading {
 
  <script>
 if ("serviceWorker" in navigator) {
+    
     navigator.serviceWorker.register("/firebase-messaging-sw.js")
         .then(reg => console.log("Service Worker registered"));
 }
 </script>
-<script type="module">
+<!-- <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
   import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-messaging.js";
 
@@ -437,6 +438,106 @@ if ("serviceWorker" in navigator) {
       console.log("Foreground Message:", payload);
       alert(`${payload.notification.title}\n${payload.notification.body}`);
   });
+</script> -->
+
+
+
+
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-messaging.js";
+let mainURL = "{{ env('API_ROUTE_URL') }}";
+ const firebaseConfig = {
+    apiKey: "AIzaSyD4tanKuBcd9l-QbgXEStJmwpz0HMOYnsc",
+    authDomain: "naqaab-studio.firebaseapp.com",
+    projectId: "naqaab-studio",
+    storageBucket: "naqaab-studio.firebasestorage.app",
+    messagingSenderId: "67943032032",
+    appId: "1:67943032032:web:d9d9dd84bda52dfae41c85",
+    measurementId: "G-RC1C8S48Z2"
+  };
+
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+
+// ----------- FUNCTION TO SAVE TOKEN ----------
+async function saveFcmTokenToServer(token) {
+
+             $.ajax({
+                url: mainURL + "/notification/save-fcm-token",
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                },
+                type: "POST",
+                data: {
+                    token: token
+                },
+                success: function(response) {
+                    if(response.success){
+                        localStorage.setItem("fcm_token", token);
+                        console.log(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+
+
+ 
+}
+
+// ----------- GET TOKEN FUNCTION --------------
+async function getAndStoreToken() {
+    try {
+        const token = await getToken(messaging, {
+            vapidKey: "BLqxo-arukVTSdSRkUvl4BPDd7OwThWougMjBUdWilBSE0JuMHhgxyazOUAfjCCcaqhnhjYe8oQUekzFFq_Ch0A"
+        });
+
+        if (token) {
+            console.log("FCM Token: ", token);
+
+            // Only store if NEW token
+            const oldToken = localStorage.getItem("fcm_token");
+            if (oldToken !== token) {
+                console.log("New token detected");
+                // localStorage.setItem("fcm_token", token);
+                saveFcmTokenToServer(token);
+            }
+        }
+    } catch (err) {
+        console.error("Token error:", err);
+    }
+}
+
+// request permission & fetch token
+Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+        getAndStoreToken();
+    }
+});
+
+// receive foreground messages
+// onMessage(messaging, (payload) => 
+// {
+//     console.log("Foreground Message:", payload);
+// });
+onMessage(messaging, (payload) => {
+    console.log("Foreground Message:", payload);
+
+    // Show system notification
+    navigator.serviceWorker.ready.then(reg => {
+        reg.showNotification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: "/icon.png",
+            badge: "/icon.png",
+            data: payload.data,
+            vibrate: [200, 100, 200],
+        });
+    });
+});
 </script>
 
 </body>
